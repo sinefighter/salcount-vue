@@ -1,25 +1,101 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+<div class="wrapper">
+        <div class="filter">
+            <div class="date card-panel" id="filter-date">
+                <div class="row">
+                    <div class="col s4">
+                        от <input type="date" name="from"> 
+                    </div>
+                    <div class="col s4">
+                        до <input type="date" name="to">
+                    </div>
+                    <div class="col s4">
+                        <button class="waves-effect waves-light btn-small">Найти</button>
+                        <a href="#" class="clear-filter">Очистить<i class="material-icons ">clear</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profit-content">
+            <div class="profit-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="teal lighten-4">Дата</td>
+                            <td class="teal lighten-4">Проект</td>
+                            <td class="teal lighten-4 sort-sum">Сумма <i class="small material-icons">import_export</i></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="row in data" :key="row.id">
+                            <td><input type="date" name="date" :value="row.date" /></td>
+                            <td><input type="text" name="project" :value="row.project" /></td>
+                            <td><input type="number" name="profit" :value="row.profit" /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="add-new">
+                            <td><input type="date" name="date"></td>
+                            <td><input type="text" name="project"></td>
+                            <td><input type="number" name="profit">
+                                <button id="add-row" class="waves-effect waves-light btn-small">Добавить <i class="material-icons ">add</i></button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="total">
+                Всего: <b></b>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+  },
+  data() {
+    return {
+        data: [
+            {
+                "id": 1,
+                "date": "2023-01-01",
+                "project": "project 1",
+                "profit": 10000
+            },
+            {
+                "id": 2,
+                "date": "2023-01-02",
+                "project": "project 2",
+                "profit": 20000
+            },
+            {
+                "id": 3,
+                "date": "2023-01-03",
+                "project": "project 3",
+                "profit": 30000
+            },
+            {
+                "id": 4,
+                "date": "2023-01-04",
+                "project": "project 4",
+                "profit": 40000
+            }
+        ]
+    }
+}
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }

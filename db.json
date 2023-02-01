@@ -1,0 +1,22 @@
+[
+    {
+      "date": "2023-01-01",
+      "project": "project 1",
+      "profit": 10000
+    },
+    {
+      "date": "2023-01-02",
+      "project": "project 2",
+      "profit": 20000
+    },
+    {
+      "date": "2023-01-03",
+      "project": "project 3",
+      "profit": 30000
+    },
+    {
+      "date": "2023-01-04",
+      "project": "project 4",
+      "profit": 40000
+    }
+  ]
