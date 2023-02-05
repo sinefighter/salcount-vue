@@ -29,24 +29,24 @@
                     </thead>
                     <tbody>
                         <tr v-for="row in data" :key="row.id">
-                            <td><input type="date" name="date" :value="row.date" /></td>
-                            <td><input type="text" name="project" :value="row.project" /></td>
-                            <td><input type="number" name="profit" :value="row.profit" /></td>
+                            <td><input type="date" name="date" v-model="row.date" /></td>
+                            <td><input type="text" name="project" v-model="row.project" /></td>
+                            <td><input type="number" name="profit" v-model="row.profit" /></td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr class="add-new">
-                            <td><input type="date" name="date"></td>
-                            <td><input type="text" name="project"></td>
-                            <td><input type="number" name="profit">
-                                <button id="add-row" class="waves-effect waves-light btn-small">Добавить <i class="material-icons ">add</i></button>
+                            <td><input type="date" name="date" v-model="newRow.date"></td>
+                            <td><input type="text" name="project" v-model="newRow.project"></td>
+                            <td><input type="number" name="profit" v-model="newRow.profit">
+                                <button id="add-row" class="waves-effect waves-light btn-small" @click="addRow">Добавить <i class="material-icons ">add</i></button>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
             <div class="total">
-                Всего: <b></b>
+                Всего: <b>{{ countTotal }}</b>
             </div>
         </div>
     </div>
@@ -60,34 +60,69 @@ export default {
   },
   data() {
     return {
-        data: [
+        data: [],
+        newRow: {}
+    }
+  },
+  methods: {
+    addRow(e) {
+      const rowWrap = e.target.closest('.add-new')
+      const inputs = rowWrap.querySelectorAll('input')
+      let isComplete = true
+
+      inputs.forEach((item) => {
+          item.classList.remove('error')
+          if(item.value === '') {
+              item.classList.add('error')
+              isComplete = false
+          }
+      })
+        console.log(this);
+
+      if(isComplete) {
+        this.data.push(this.newRow)
+        this.addToStorage()
+        this.newRow = {}
+      }
+    },
+    addToStorage() {
+        localStorage.setItem('data', JSON.stringify(this.data))
+    }
+  },
+  computed: {
+    countTotal() {
+      return this.data.reduce((acc, item) => acc + item.profit, 0)
+    }
+  },
+  created() {
+    //передаем данные в массив data
+    if(localStorage.getItem('data')) {
+        this.data = JSON.parse(localStorage.getItem('data'))
+    }else{
+      this.data = [
             {
-                "id": 1,
-                "date": "2023-01-01",
-                "project": "project 1",
-                "profit": 10000
+                date: '2023-01-01',
+                project: 'project 1',
+                profit: 10000
             },
             {
-                "id": 2,
-                "date": "2023-01-02",
-                "project": "project 2",
-                "profit": 20000
+                date: '2023-01-02',
+                project: 'project 2',
+                profit: 20000
             },
             {
-                "id": 3,
-                "date": "2023-01-03",
-                "project": "project 3",
-                "profit": 30000
+                date: '2023-01-03',
+                project: 'project 3',
+                profit: 30000
             },
             {
-                "id": 4,
-                "date": "2023-01-04",
-                "project": "project 4",
-                "profit": 40000
-            }
+                date: '2023-01-04',
+                project: 'project 4',
+                profit: 40000
+            },
         ]
     }
-}
+  }
 }
 </script>
 
