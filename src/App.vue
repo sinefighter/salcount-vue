@@ -11,7 +11,7 @@
                         до <input type="date" name="to">
                     </div>
                     <div class="col s4">
-                        <button class="waves-effect waves-light btn-small">Найти</button>
+                        <button class="waves-effect waves-light btn-small" @click="filterDate">Найти</button>
                         <a href="#" class="clear-filter">Очистить<i class="material-icons ">clear</i></a>
                     </div>
                 </div>
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import moment from 'moment/moment'
+
 export default {
   name: 'App',
   components: {
@@ -87,6 +89,16 @@ export default {
     },
     addToStorage() {
         localStorage.setItem('data', JSON.stringify(this.data))
+    },
+    filterDate(e) {
+        const filterForm = e.target.closest('#filter-date')
+        const from = filterForm.querySelector('input[name=from]').value
+        const to = filterForm.querySelector('input[name=to]').value
+
+        this.data = this.data.filter((item) => {
+            return moment(item.date).isBetween(from, to, undefined, '[]')
+        })
+        // console.log(filtredData);
     }
   },
   computed: {
@@ -132,6 +144,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
