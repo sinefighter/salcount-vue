@@ -12,7 +12,7 @@
                     </div>
                     <div class="col s4">
                         <button class="waves-effect waves-light btn-small" @click="filterDate">Найти</button>
-                        <a href="#" class="clear-filter">Очистить<i class="material-icons ">clear</i></a>
+                        <a href="#" class="clear-filter" @click="this.cloneData = this.data">Очистить<i class="material-icons">clear</i></a>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row in data" :key="row.id">
+                        <tr v-for="row in cloneData" :key="row.id">
                             <td><input type="date" name="date" v-model="row.date" /></td>
                             <td><input type="text" name="project" v-model="row.project" /></td>
                             <td><input type="number" name="profit" v-model="row.profit" /></td>
@@ -63,6 +63,7 @@ export default {
   data() {
     return {
         data: [],
+        cloneData: [],
         newRow: {}
     }
   },
@@ -95,11 +96,10 @@ export default {
         const from = filterForm.querySelector('input[name=from]').value
         const to = filterForm.querySelector('input[name=to]').value
 
-        this.data = this.data.filter((item) => {
+        this.cloneData = this.data.filter((item) => {
             return moment(item.date).isBetween(from, to, undefined, '[]')
         })
-        // console.log(filtredData);
-    }
+    },
   },
   computed: {
     countTotal() {
@@ -134,6 +134,7 @@ export default {
             },
         ]
     }
+    this.cloneData = this.data
   }
 }
 </script>
