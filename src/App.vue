@@ -28,11 +28,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row in cloneData" :key="row.id">
+                        <template v-for="(month, index) in cloneData" :key="month.monthName">
+                            <tr class="row-title">
+                                <td colspan="2" class="row-month">{{ month.monthName }}</td>
+                                <td class="row-profit">{{ totalMonth(cloneData[index].rows) }}</td>
+                            </tr>
+                            <template v-for="row in cloneData[index].rows" :key="row.id">
+                                <tr>
+                                    <td><input type="date" name="date" v-model="row.date" /></td>
+                                    <td><input type="text" name="project" v-model="row.project" /></td>
+                                    <td><input type="number" name="profit" v-model="row.profit" /></td>
+                                </tr>
+                            </template>
+                        </template>
+                        
+                        <!-- <tr v-for="row in cloneData" :key="row.id">
                             <td><input type="date" name="date" v-model="row.date" /></td>
                             <td><input type="text" name="project" v-model="row.project" /></td>
                             <td><input type="number" name="profit" v-model="row.profit" /></td>
-                        </tr>
+                        </tr> -->
+                        
                     </tbody>
                     <tfoot>
                         <tr class="add-new">
@@ -100,10 +115,69 @@ export default {
             return moment(item.date).isBetween(from, to, undefined, '[]')
         })
     },
+    checkMonth() {
+        moment.locale('ru');
+        const monthsBetween = []
+        const array = []
+        let index = 0
+        this.data.reduce((accumulator, item) => {
+            const monthWord = moment(item.date).format('MMMM')
+            if(accumulator.indexOf(monthWord) === -1) {
+                accumulator.push(monthWord)
+                array[index] = {
+                    monthName: monthWord
+                }
+                index++
+
+                const startOfMonth = moment(item.date).startOf('month').format('YYYY-MM-DD');
+                const endOfMonth   = moment(item.date).endOf('month').format('YYYY-MM-DD');
+                monthsBetween.push({start: startOfMonth, end: endOfMonth})
+            }
+            return accumulator
+        }, [])
+
+        // console.log(moths);
+        monthsBetween.forEach((mnth, i) => {
+            array[i].rows = this.data.filter((row) => {
+                if(moment(row.date).isBetween(mnth.start, mnth.end, undefined, '[]')) {
+                    return row
+                }
+            })
+        })
+
+        // console.log(months);
+        // console.log(array);
+
+        // return {months, monthsBetween}
+        return array
+    },
+    isBetweenMonth(row, month) {
+        return moment(row.date).isBetween(month.start, month.end, undefined, '[]')
+    },
+
+    totalMonth(array) {
+        console.log(array);
+        return array.reduce((acc, item) => acc + item.profit, 0)
+    }
+
+    // createSortArray () {
+    //     this.cloneData = this.checkMonth().months
+    // }
   },
   computed: {
     countTotal() {
-      return this.data.reduce((acc, item) => acc + item.profit, 0)
+        // console.log(this.cloneData);
+        let total = 0
+        this.cloneData.forEach((month) => {
+            month.rows.forEach((item) => {
+                // console.log(item.profit);
+                total += item.profit
+            })
+        })
+        return total
+    //   return this.cloneData.reduce((acc, item) => {
+    //     return acc + item.profit
+    //   }, 0)
     }
   },
   created() {
@@ -134,7 +208,7 @@ export default {
             },
         ]
     }
-    this.cloneData = this.data
+    this.cloneData = this.checkMonth()
   }
 }
 </script>
