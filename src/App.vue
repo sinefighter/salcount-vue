@@ -23,23 +23,26 @@
                             <tr>
                                 <td class="teal lighten-4">Дата</td>
                                 <td class="teal lighten-4">Проект</td>
-                                <td class="teal lighten-4 sort-sum">Сумма <i class="small material-icons">import_export</i></td>
+                                <td class="teal lighten-4 sort-sum" @click="sortProfit">Сумма <i class="small material-icons">import_export</i></td>
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="month in getAllMonths()" :key="month.start">
-                                <tr class="row-title">
-                                    <td colspan="2" class="row-month">{{ monthName(month) }}</td>
-                                    <td class="row-profit">{{ monthTotal(month) }} грн</td>
-                                </tr>
-                                <template v-for="row in cloneData" :key="row.id">
-                                    <tr v-if="isBetweenMonth(row, month)">
-                                        <td><input type="date" name="date" v-model="row.date" /></td>
-                                        <td><input type="text" name="project" v-model="row.project" /></td>
-                                        <td><input type="number" name="profit" v-model="row.profit" /></td>
+                            <transition-group name="list">
+                                <template v-for="month in getAllMonths()" :key="month.start">
+                                    <tr class="row-title">
+                                        <td colspan="2" class="row-month">{{ monthName(month) }}</td>
+                                        <td class="row-profit">{{ monthTotal(month) }} грн</td>
                                     </tr>
+                                    
+                                    <template v-for="row in cloneData" :key="row.id">
+                                        <tr v-if="isBetweenMonth(row, month)">
+                                            <td><input type="date" name="date" v-model="row.date" /></td>
+                                            <td><input type="text" name="project" v-model="row.project" /></td>
+                                            <td><input type="number" name="profit" v-model="row.profit" /></td>
+                                        </tr>
+                                    </template>
                                 </template>
-                            </template>
+                            </transition-group>
                         </tbody>
                         <tfoot>
                             <tr class="add-new">
@@ -71,7 +74,8 @@
         return {
             data: [],
             cloneData: [],
-            newRow: {}
+            newRow: {},
+            switchSort: true,
         }
       },
       methods: {
@@ -115,7 +119,7 @@
         },
     
         getAllMonths() { //получаем даты начала и конца месяцев
-            moment.locale('ru');
+            moment.locale('uk');
     
             const monthArray = []
             const monthsBetween = this.cloneData.reduce((acc, item) => {
@@ -154,7 +158,7 @@
                 return acc
             }, 0)
         },
-    
+
       },
       computed: {
         countTotal() { // подсчет общей суммы за все время
@@ -204,6 +208,19 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       color: #2c3e50;
+    }
+
+    .list-enter-active,
+    .list-leave-active {
+        transition: all 1s ease;
+    }
+    .list-enter-from,
+    .list-leave-to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    .flip-list-move {
+    transition: transform 0.8s ease;
     }
     </style>
     

@@ -1,128 +1,143 @@
 
 /*	-------------------------------------------------
-	Базовые стили сайта | Base site styles
-    ------------------------------------------------- */
+Базовые стили сайта | Base site styles
+------------------------------------------------- */
 
-    $text-color: #000;
-    * {
-        box-sizing: border-box;
+$text-color: #000;
+* {
+    box-sizing: border-box;
+}
+body {
+    // font: normal normal 18px/1.3 'Roboto', sans-serif;
+    background:#FFF;
+    color: $text-color;
+}
+
+input,
+textarea,
+label,
+select {
+    font:normal normal 18px/1.3 'Roboto', sans-serif;
+    border: 1px solid $text-color;
+}
+
+a { color: inherit; text-decoration:none; }
+a:hover { text-decoration:none; color: inherit; }
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none inside;
+}
+.no-scroll {
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    overflow-y: hidden;
+}
+ul {
+    margin: 0;
+    padding: 0;
+}
+html.no-scroll {
+    overflow: hidden;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+/*	-------------------------------------------------
+    Стили блоков, содержимого страниц | Other styles
+    ------------------------------------------------- */
+.wrapper {
+    max-width: 100%;
+    padding: 30px;
+    margin: 0 auto;
+}
+.add-row {
+    margin: 0 auto;
+    width: 300px;
+    text-align: center;
+}
+form {
+    .input {
+        margin-bottom: 20px;
     }
-    body {
-        // font: normal normal 18px/1.3 'Roboto', sans-serif;
-        background:#FFF;
-        color: $text-color;
-    }
-    
-    input,
-    textarea,
-    label,
-    select {
-        font:normal normal 18px/1.3 'Roboto', sans-serif;
-        border: 1px solid $text-color;
-    }
-    
-    a { color: inherit; text-decoration:none; }
-    a:hover { text-decoration:none; color: inherit; }
-    
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none inside;
-    }
-    .no-scroll {
-        width: 100%;
-        position: fixed;
-        overflow: hidden;
-        overflow-y: hidden;
-    }
-    ul {
-        margin: 0;
-        padding: 0;
-    }
-    html.no-scroll {
-        overflow: hidden;
-        -ms-touch-action: none;
-        touch-action: none;
-    }
-    /*	-------------------------------------------------
-        Стили блоков, содержимого страниц | Other styles
-        ------------------------------------------------- */
-    .wrapper {
-        max-width: 100%;
-        padding: 30px;
-        margin: 0 auto;
-    }
-    .add-row {
-        margin: 0 auto;
-        width: 300px;
-        text-align: center;
-    }
-    form {
-        .input {
-            margin-bottom: 20px;
-        }
-    }
-    // button {
-    //     border-radius: 10px;
-    //     background: #169c16;
-    //     padding: 5px 25px;
-    //     color: #fff;
-    //     font: 16px/1.3 Roboto,sans-serif;
-    // }
-    
-    .profit-table {
-        table {
-            thead {
-                td.sort-sum {
-                    cursor: pointer;
-                    i {
-                        vertical-align: middle;
-                        transition: .2s;
-                    }
-                }
-                td.sort {
-                    i {
-                        transform: rotate(180deg);
-                    }
+}
+// button {
+//     border-radius: 10px;
+//     background: #169c16;
+//     padding: 5px 25px;
+//     color: #fff;
+//     font: 16px/1.3 Roboto,sans-serif;
+// }
+
+.profit-table {
+    table {
+        thead {
+            td.sort-sum {
+                cursor: pointer;
+                i {
+                    vertical-align: middle;
+                    transition: .2s;
                 }
             }
-        }
-    }
-    
-    tr.add-new {
-        td {
-            position: relative;
-            button {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-            }
-        }
-        input.error {
-            border: 1px solid #f00;
-        }
-    }
-    tr.row-title {
-        td {
-            font-weight: bold;
-            background: #e9e9e9;
-        }
-        td.row-month {
-            &::first-letter {
-                text-transform: uppercase;
-            }
-        }
-        td.row-profit {
-            text-align: right;
-            b {
-                font-size: 20px;
-                font-weight: bold;
+            td.sort {
+                i {
+                    transform: rotate(180deg);
+                }
             }
         }
     }
-    
-    .total {
-        padding: 10px;
+}
+
+tr.add-new {
+    td {
+        position: relative;
+        button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+    }
+    input.error {
+        border: 1px solid #f00;
+    }
+}
+tr.row-title {
+    td {
+        font-weight: bold;
+        background: #e9e9e9;
+    }
+    td.row-month {
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
+    td.row-profit {
         text-align: right;
-        font-size: 22px;
+        b {
+            font-size: 20px;
+            font-weight: bold;
+        }
     }
+}
+
+.total {
+    padding: 10px;
+    text-align: right;
+    font-size: 22px;
+}
+
+.fade-in-down {
+    opacity: 0;
+	animation: fade-in-down .5s ease-in both;
+}
+@keyframes fade-in-down {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -20%, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
