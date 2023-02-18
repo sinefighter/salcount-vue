@@ -36,9 +36,9 @@
                                     
                                     <template v-for="row in cloneData" :key="row.id">
                                         <tr v-if="isBetweenMonth(row, month)">
-                                            <td><input type="date" name="date" v-model="row.date" /></td>
-                                            <td><input type="text" name="project" v-model="row.project" /></td>
-                                            <td><input type="number" name="profit" v-model="row.profit" /></td>
+                                            <td><input type="date" name="date" v-model="row.date" @blur="saveEditCell" /></td>
+                                            <td><input type="text" name="project" v-model="row.project" @blur="saveEditCell" /></td>
+                                            <td><input type="number" name="profit" v-model="row.profit" @blur="saveEditCell" /></td>
                                         </tr>
                                     </template>
                                 </template>
@@ -104,6 +104,11 @@
         addToStorage() { //добавление в локалсторедж
             localStorage.setItem('data', JSON.stringify(this.data))
             console.log('addToStorage');
+        },
+
+        saveEditCell() {
+            this.addToStorage()
+            console.log('saveEditCell');
         },
     
         filterDate(e) { //фильтрация по дате
